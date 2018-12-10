@@ -83,7 +83,7 @@ var budgetController = (function(){
                 totalIncome: data.total.inc,
                 totalExpenses: data.total.exp,
                 percentage: data.percentage
-            }
+            };
         },
 
         testing: function(){
@@ -102,7 +102,11 @@ var uiController = (function(){
         inputValue: '.add__value',
         inputBtn: '.add__btn',
         incomeContainer: '.income__list',
-        expensesContainer: '.expenses__list'
+        expensesContainer: '.expenses__list',
+        budgetLabel: '.budget__value',
+        incomeLabel: '.budget__income--value',
+        expenseLabel: '.budget__expenses--value',
+        percentageLabel: '.budget__expenses--percentage'
     }
 
     return {
@@ -151,6 +155,18 @@ var uiController = (function(){
             fieldsArr[0].focus();
         },
 
+        displayBudget: function(obj){
+            document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
+            document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalIncome;
+            document.querySelector(DOMstrings.expenseLabel).textContent = obj.totalExpenses;
+            
+            if(obj.percentage > 0){
+                document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';
+            }else{
+                document.querySelector(DOMstrings.percentageLabel).textContent = '---';
+            }
+        },
+
         getDOMstrings: function(){
             return DOMstrings;
         }
@@ -181,8 +197,9 @@ var controller = (function(budgetCtrl, uiCtrl){
         budgetController.calculateBudget();
         // 2. Return the budget
         var budget = budgetController.getBudget();
-        // 2. Display the budget on the UI
-        console.log(budget);
+        // 3. Display the budget on the UI
+        uiController.displayBudget(budget);
+        
     };
 
     var ctrlAddItem = function(){
@@ -206,6 +223,12 @@ var controller = (function(budgetCtrl, uiCtrl){
     return {
         init: function(){
             console.log('Application has started.');
+            uiController.displayBudget({
+                budget: 0,
+                totalIncome: 0,
+                totalExpenses: 0,
+                percentage: -1
+            });
             setupEventListners();
         }
     };
