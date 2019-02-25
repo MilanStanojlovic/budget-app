@@ -211,7 +211,7 @@ var uiController = (function(){
             //2. Replace the placeholder text with actual data
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value%', formatNumber(obj.value));
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
             //3. Insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
